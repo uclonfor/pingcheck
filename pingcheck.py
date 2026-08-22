@@ -104,7 +104,8 @@ class PingCheckApp:
         # ---------------- геометрия
         self.pad, self.ax, self.avg_r = 26, 64, 38
         self.row_h, self.sr = 64, 16
-        self.ay = self.pad + self.avg_r
+	self.hdr = 36   # шапка под заголовок, чтобы кольцо не наезжало
+        self.ay = self.hdr + self.avg_r + 6
         top0 = self.ay + self.avg_r + 26
         self.cys = [top0 + i * self.row_h + self.sr + 4
                     for i in range(len(self.sites))]
