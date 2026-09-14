@@ -1,2 +1,2 @@
-requests
-keyboard
+requests>=2.32.3,<3
+keyboard>=0.13.5,<0.14; sys_platform == "win32"

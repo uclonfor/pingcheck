@@ -2,12 +2,28 @@
   "hotkey": "ctrl+alt+p",
   "timeout": 5,
   "autohide_sec": 20,
+  "animations": true,
   "pos": null,
   "sites": [
-    {"domain": "google.com",     "icon": "G"},
-    {"domain": "github.com",     "icon": "GH"},
-    {"domain": "apple.com",      "icon": "A"},
-    {"domain": "cloudflare.com", "icon": "CF"},
-    {"domain": "youtube.com",    "icon": "YT"}
+    {
+      "domain": "google.com",
+      "icon": "G"
+    },
+    {
+      "domain": "github.com",
+      "icon": "GH"
+    },
+    {
+      "domain": "apple.com",
+      "icon": "A"
+    },
+    {
+      "domain": "cloudflare.com",
+      "icon": "CF"
+    },
+    {
+      "domain": "youtube.com",
+      "icon": "YT"
+    }
   ]
 }

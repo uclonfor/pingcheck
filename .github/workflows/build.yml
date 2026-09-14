@@ -1,33 +1,82 @@
-name: Build
-on: push
+name: Build and tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - run: sudo apt-get update && sudo apt-get install -y python3-tk xvfb xauth
+      - run: python -m pip install -r requirements-dev.txt
+      - run: ruff check .
+      - run: xvfb-run -a python -m unittest discover -s tests -v
+
   windows-exe:
+    needs: tests
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install -r requirements.txt pyinstaller
-      - run: pyinstaller --onefile --noconsole --name PingCheck pingcheck.py
+          cache: pip
+      - run: python -m pip install -r requirements.txt pyinstaller
+      - run: python -m unittest discover -s tests -v
+      - run: python -m PyInstaller --onefile --noconsole --name SitePulse --icon assets/sitepulse.ico --add-data "assets:assets" pingcheck.py
+      - name: Launch packaged application
+        shell: pwsh
+        run: |
+          $sitepulseProcess = Start-Process -FilePath (Resolve-Path dist/SitePulse.exe) -ArgumentList '--demo' -PassThru
+          try {
+            $windowFound = $false
+            for ($attempt = 0; $attempt -lt 30; $attempt++) {
+              Start-Sleep -Milliseconds 500
+              $window = Get-Process SitePulse -ErrorAction SilentlyContinue | Where-Object { $_.MainWindowTitle -eq 'SitePulse' }
+              if ($window) { $windowFound = $true; break }
+              $sitepulseProcess.Refresh()
+              if ($sitepulseProcess.HasExited) { throw 'Packaged application exited before opening a window.' }
+            }
+            if (-not $windowFound) { throw 'Packaged application did not open its window.' }
+          } finally {
+            if (-not $sitepulseProcess.HasExited) { taskkill /PID $sitepulseProcess.Id /T /F }
+          }
       - uses: actions/upload-artifact@v4
         with:
-          name: PingCheck-windows
-          path: dist/PingCheck.exe
+          name: SitePulse-windows
+          path: dist/SitePulse.exe
+          if-no-files-found: error
 
-  screenshot:
+  preview:
+    needs: tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y python3-tk python3-requests xvfb scrot
-      - run: |
-          Xvfb :99 -screen 0 500x800x24 &
-          sleep 2
-          DISPLAY=:99 python3 pingcheck.py &
-          sleep 12
-          DISPLAY=:99 scrot screenshot.png
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: sudo apt-get update && sudo apt-get install -y python3-tk xvfb xauth
+      - run: python -m pip install -r requirements-dev.txt
+      - run: xvfb-run -a -s '-screen 0 1280x900x24' python scripts/capture_preview.py
       - uses: actions/upload-artifact@v4
         with:
-          name: app-screenshot
-          path: screenshot.png
+          name: SitePulse-preview
+          path: |
+            docs/sitepulse.png
+            docs/sitepulse.gif
+            docs/settings.png
+          if-no-files-found: error
