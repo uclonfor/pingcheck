@@ -14,6 +14,7 @@ from tkinter import font as tkfont, messagebox
 
 from pingcheck_core import (
     APP_NAME,
+    APP_VERSION,
     ConfigError,
     ProbeResult,
     check_site,
@@ -630,6 +631,7 @@ class PingCheckApp:
 
 def main():
     parser = argparse.ArgumentParser(description="SitePulse — HTTP availability at a glance")
+    parser.add_argument("--version", action="version", version=f"{APP_NAME} {APP_VERSION}")
     parser.add_argument("--config", type=str, help="Path to a JSON configuration file")
     parser.add_argument(
         "--demo", action="store_true", help="Show sample results without network requests or config writes"

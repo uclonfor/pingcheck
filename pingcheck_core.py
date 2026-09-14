@@ -14,6 +14,7 @@ from urllib.parse import urlsplit
 import requests
 
 APP_NAME = "SitePulse"
+APP_VERSION = "1.1.0"
 DEFAULT_CONFIG = {
     "hotkey": "ctrl+alt+p",
     "timeout": 5,

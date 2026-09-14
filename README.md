@@ -1,11 +1,15 @@
 <div align="center">
 
+<img src="assets/sitepulse.svg" width="64" alt="SitePulse icon">
+
 # SitePulse
 
 **Пульс ваших сайтов — прямо на рабочем столе.**
 
 Небольшой виджет на Python/Tkinter: доступность сайтов, время HTTP-ответа и живая цепочка проверок.
 Раньше проект назывался **PingCheck**; команда запуска `python pingcheck.py` сохранена.
+
+**[Скачать для Windows](https://github.com/uclonfor/pingcheck/releases/latest/download/SitePulse.exe)** · [Все релизы](https://github.com/uclonfor/pingcheck/releases)
 
 ![Build and tests](https://github.com/uclonfor/pingcheck/actions/workflows/build.yml/badge.svg)
 
@@ -56,7 +60,9 @@ py -3 -m venv .venv
 .\.venv\Scripts\python.exe pingcheck.py
 ```
 
-После успешной сборки GitHub Actions исполняемый файл доступен в **Actions → Build and tests → выбранный запуск → Artifacts → SitePulse-windows**. Распакуйте архив и запустите `SitePulse.exe`. Это артефакт CI, не подписанный установщик.
+Готовый `SitePulse.exe` можно скачать на [странице релизов](https://github.com/uclonfor/pingcheck/releases/latest). Python для него устанавливать не нужно.
+
+Также после успешной сборки GitHub Actions исполняемый файл доступен в **Actions → Build and tests → выбранный запуск → Artifacts → SitePulse-windows**. Распакуйте архив и запустите `SitePulse.exe`. Это артефакт CI, не подписанный установщик.
 
 ## Управление
 
