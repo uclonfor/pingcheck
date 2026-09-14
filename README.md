@@ -4,36 +4,38 @@
 
 # SitePulse
 
-**Пульс ваших сайтов — прямо на рабочем столе.**
+**English** | [Русский](README.ru.md)
 
-Небольшой виджет на Python/Tkinter: доступность сайтов, время HTTP-ответа и живая цепочка проверок.
-Раньше проект назывался **PingCheck**; команда запуска `python pingcheck.py` сохранена.
+**The pulse of your websites, right on your desktop.**
 
-**[Скачать для Windows](https://github.com/uclonfor/pingcheck/releases/latest/download/SitePulse.exe)** · [Все релизы](https://github.com/uclonfor/pingcheck/releases)
+A compact Python/Tkinter widget for website availability, HTTP response times, and an animated chain of checks.
+Previously called **PingCheck**; the launch command remains `python pingcheck.py`.
+
+**[Download for Windows](https://github.com/uclonfor/pingcheck/releases/latest/download/SitePulse.exe)** · [All releases](https://github.com/uclonfor/pingcheck/releases)
 
 ![Build and tests](https://github.com/uclonfor/pingcheck/actions/workflows/build.yml/badge.svg)
 
-![Анимация SitePulse с демонстрационными данными](docs/sitepulse.gif)
+![SitePulse animation with demo data](docs/sitepulse.gif)
 
-*На превью — демонстрационные значения, а не реальные измерения доступности сайтов.*
+*The preview uses demo values, not live measurements of website availability.*
 
 </div>
 
-## Что умеет
+## Features
 
-- Проверяет сайты **строго по одному**: следующий запрос начинается только после завершения предыдущего. Само приложение не создаёт конкуренцию между своими измерениями.
-- Световой импульс движется к следующему сайту, затем начинается настоящий запрос. Во время ожидания пульсирует активная строка; ответ подсвечивает её и продвигает кольцо. Время анимации не входит в измерение.
-- Показывает среднее время ответа, HTTP-коды и отдельные ошибки TLS, соединения, таймаута и перенаправлений.
-- Хранит в памяти историю последних 18 проверок каждого сайта. Графики имеют собственный масштаб для каждой строки.
-- Перепроверяет отдельный сайт по клику и весь список по `R` или `F5`. **Stop scan** останавливает очередь после текущего запроса.
-- Позволяет менять сайты, таймаут, автоскрытие и анимации прямо в **Settings**, без редактирования JSON.
-- Запоминает позицию, поддерживает до 20 сайтов и прокрутку длинного списка.
-- Предлагает плавное появление окна, подсветку строк и отключение анимаций.
-- Работает без администратора. Глобальный хоткей доступен в Windows; в Ubuntu окно можно свернуть и вернуть через панель задач.
+- Checks websites **one at a time**: each request starts only after the previous one finishes. The app's own measurements do not compete with one another.
+- A light pulse travels to the next site before its request starts. The active row pulses while waiting, then briefly lights up when a response arrives and advances the progress ring. Animation time is excluded from the measurement.
+- Shows average response time, HTTP codes, and distinct TLS, connection, timeout, and redirect errors.
+- Keeps the last 18 checks for each site in memory. Each row's chart has its own scale.
+- Rechecks a single site on click, or the entire list with `R` or `F5`. **Stop scan** stops the queue after the current request.
+- Lets you edit sites, timeout, auto-hide, and animations in **Settings**, without editing JSON.
+- Remembers the window position, supports up to 20 sites, and scrolls longer lists.
+- Includes a smooth window entrance, row highlights, and an option to disable animations.
+- Runs without administrator privileges. Windows supports a global hotkey; on Ubuntu, you can minimize and restore the window from the taskbar.
 
-## Быстрый старт
+## Quick start
 
-Нужны **Python 3.10+**, Tk и графическая сессия.
+Requires **Python 3.10+**, Tk, and a graphical desktop session.
 
 ### Ubuntu / Debian
 
@@ -48,7 +50,7 @@ pip install -r requirements.txt
 python pingcheck.py
 ```
 
-Не запускайте приложение через `sudo`: глобальный перехват клавиатуры в Linux здесь намеренно не включается. На Wayland поведение «поверх окон» и размещение зависят от оконного менеджера.
+Run the app as your normal user, without `sudo`: global keyboard interception is deliberately disabled on Linux. On Wayland, window placement and always-on-top behavior depend on the window manager.
 
 ### Windows (PowerShell)
 
@@ -60,45 +62,45 @@ py -3 -m venv .venv
 .\.venv\Scripts\python.exe pingcheck.py
 ```
 
-Готовый `SitePulse.exe` можно скачать на [странице релизов](https://github.com/uclonfor/pingcheck/releases/latest). Python для него устанавливать не нужно.
+You can also download a ready-to-run `SitePulse.exe` from the [latest release](https://github.com/uclonfor/pingcheck/releases/latest). It does not require a separate Python installation.
 
-Также после успешной сборки GitHub Actions исполняемый файл доступен в **Actions → Build and tests → выбранный запуск → Artifacts → SitePulse-windows**. Распакуйте архив и запустите `SitePulse.exe`. Это артефакт CI, не подписанный установщик.
+After a successful GitHub Actions build, the executable is also available under **Actions → Build and tests → select a run → Artifacts → SitePulse-windows**. Extract the archive and run `SitePulse.exe`. This is a CI artifact, not a signed installer.
 
-## Управление
+## Controls
 
-| Действие | Управление |
+| Action | Control |
 | --- | --- |
-| Проверить все сайты | **Check again**, `R` или `F5` |
-| Проверить один сайт | Клик по строке |
-| Остановить проход | **Stop scan**; текущий запрос завершится, остальные не начнутся |
-| Настроить приложение | **Settings** или `Ctrl+,` после завершения прохода |
-| Переместить окно | Перетаскивание заголовка или верхней области виджета |
-| Скрыть / свернуть | `Esc`; автоматически после проверки |
-| Показать / скрыть в Windows | `Ctrl+Alt+P`, если хоткей удалось зарегистрировать |
-| Вернуть без глобального хоткея | Через панель задач |
-| Завершить приложение | Крестик системного окна или `Ctrl+Q` |
+| Check all sites | **Check again**, `R`, or `F5` |
+| Check one site | Click its row |
+| Stop a scan | **Stop scan**; the current request finishes and the remaining requests do not start |
+| Open settings | **Settings** or `Ctrl+,` after the scan finishes |
+| Move the window | Drag the title bar or the top area of the widget |
+| Hide / minimize | `Esc`, or automatically after a scan |
+| Show / hide on Windows | `Ctrl+Alt+P`, if the hotkey was successfully registered |
+| Restore without a global hotkey | Use the taskbar |
+| Quit | The window's close button or `Ctrl+Q` |
 
-Пока идёт проверка, повторные запуски игнорируются. После **Stop scan** новый проход также ждёт завершения текущего запроса — наложения измерений не будет. Автоскрытие начинается после завершения всего текущего прохода, включая анимацию. Крестик **завершает процесс**, а `Esc` скрывает окно при активном хоткее или сворачивает его в остальных случаях.
+Repeated start commands are ignored during a scan. After **Stop scan**, a new scan also waits for the current request to finish, so measurements cannot overlap. The auto-hide countdown starts when the current scan, including its transitions, finishes. The close button **exits the process**; `Esc` hides the window when a global hotkey is active, or minimizes it otherwise.
 
-## Настройка
+## Configuration
 
-Откройте **Settings**, укажите сайты по одному в строке, настройте таймаут и нажмите **Save & check**. Изменения применяются сразу. Порядок строк задаёт порядок проверок; иконки существующих сайтов сохраняются. В `--demo` кнопка **Apply demo** меняет только демонстрационное окно, без записи на диск.
+Open **Settings**, enter one site per line, adjust the timeout, and click **Save & check**. Changes take effect immediately. The line order determines the check order, and existing site icons are preserved. In `--demo` mode, **Apply demo** updates only the demo window without writing to disk.
 
-![Окно настроек SitePulse](docs/settings.png)
+![SitePulse settings window](docs/settings.png)
 
-При первом обычном запуске создаётся `config.json`:
+The first normal launch creates `config.json`:
 
-- из исходников — рядом с `pingcheck_core.py`;
-- Windows `.exe` — `%APPDATA%\SitePulse\config.json`, вне временной папки PyInstaller;
-- другая упакованная сборка — `$XDG_CONFIG_HOME/SitePulse/config.json` или `~/.config/SitePulse/config.json`.
+- From source: next to `pingcheck_core.py`.
+- Windows `.exe`: `%APPDATA%\SitePulse\config.json`, outside PyInstaller's temporary directory.
+- Other packaged builds: `$XDG_CONFIG_HOME/SitePulse/config.json` or `~/.config/SitePulse/config.json`.
 
-Можно выбрать собственный файл:
+To use a custom configuration file:
 
 ```bash
 python pingcheck.py --config /path/to/config.json
 ```
 
-Пример — [`config.example.json`](config.example.json):
+See [`config.example.json`](config.example.json):
 
 ```json
 {
@@ -115,34 +117,34 @@ python pingcheck.py --config /path/to/config.json
 }
 ```
 
-| Поле | Значение |
+| Field | Meaning |
 | --- | --- |
-| `hotkey` | Глобальный хоткей Windows; `""` отключает его |
-| `timeout` | Таймаут соединения / чтения в секундах: 0.1–120 |
-| `autohide_sec` | Задержка скрытия: 0–86400 секунд; `0` отключает |
-| `animations` | `false` отключает появление, пульсацию и анимацию перехода; запросы остаются последовательными |
-| `pos` | `null` для автоматической позиции или `[x, y]` |
-| `sites` | 1–20 объектов; `domain` обязателен, `icon` — 1–3 символа |
+| `hotkey` | Windows global hotkey; `""` disables it |
+| `timeout` | Connection / read timeout in seconds: 0.1–120 |
+| `autohide_sec` | Hide delay in seconds: 0–86400; `0` disables auto-hide |
+| `animations` | `false` disables window entrance, pulsing, and transition animations; requests remain sequential |
+| `pos` | `null` for automatic placement, or `[x, y]` |
+| `sites` | 1–20 objects; `domain` is required, and `icon` contains 1–3 characters |
 
-Отсутствующие поля берутся из настроек по умолчанию. После изменения файла перезапустите приложение. Некорректный JSON или неподходящие значения показывают понятную ошибку с путём к файлу; исходный конфиг сохраняется для исправления. Запись позиции выполняется через временный файл и атомарную замену.
+Missing fields use the defaults. Restart the app after editing the file manually. Invalid JSON or unsupported values produce an error with the file path; the original configuration is preserved so you can fix it. Position updates use a temporary file and atomic replacement.
 
-## Что именно измеряется
+## What the numbers mean
 
-**Это время HTTP-ответа, не ICMP ping и не проверка скорости интернета.** Таймер включает установку соединения, TLS, перенаправления и получение заголовков. Среднее учитывает все полученные HTTP-ответы, в том числе `4xx/5xx`; сетевые ошибки в среднее не входят.
+**This measures HTTP response time, not ICMP ping or internet speed.** The timer includes connection setup, TLS, redirects, and receiving response headers. The average includes all received HTTP responses, including `4xx/5xx`; network failures are excluded.
 
-Измерение начинается непосредственно перед сетевым запросом и заканчивается после получения заголовков. Пауза перехода между строками в него не входит. Последовательная очередь исключает одновременные запросы самого SitePulse, но фоновые загрузки, работа DNS/TLS и планирование потоков всё ещё могут влиять на результат. Это не инструмент для измерения микросекундной задержки.
+Timing starts immediately before the network request and ends when its headers arrive. The animated transition between rows is excluded. The sequential queue prevents SitePulse's own requests from running simultaneously, but background traffic, DNS/TLS work, and thread scheduling can still affect the results. This is not a tool for measuring microsecond latency.
 
-Сначала отправляется `HEAD`. При `405` или `501` используется потоковый `GET`; тело намеренно не вычитывается. Домен без схемы получает `https://`. Ошибка HTTPS не вызывает незаметного перехода на HTTP: для HTTP-сервера явно укажите `http://`.
+Each check starts with `HEAD`. If the server returns `405` or `501`, the app falls back to a streamed `GET` without deliberately consuming the response body. Domains without a scheme use `https://`. An HTTPS failure never silently falls back to HTTP: specify `http://` explicitly for an HTTP server.
 
-`2xx/3xx` считаются успешным HTTP-ответом, `4xx/5xx` — ошибкой HTTP. `403` может означать защиту от ботов, а не недоступность сайта для браузера. Успешный код также не гарантирует исправность всего сервиса.
+`2xx/3xx` count as successful HTTP responses; `4xx/5xx` count as HTTP errors. A `403` may indicate bot protection rather than a site being unavailable in a browser. A successful status code does not guarantee that every part of a service is healthy.
 
-`timeout` не является общим дедлайном всей проверки: перенаправления, DNS и запасной `GET` могут увеличить её длительность. Это следует из [семантики таймаутов Requests](https://requests.readthedocs.io/en/stable/user/quickstart/#timeouts). Ответы закрываются после чтения заголовков согласно [правилам потокового чтения Requests](https://requests.readthedocs.io/en/stable/user/advanced/#body-content-workflow).
+`timeout` is not a deadline for the entire check: redirects, DNS, and a fallback `GET` can increase its duration. See [Requests timeout behavior](https://requests.readthedocs.io/en/stable/user/quickstart/#timeouts). Responses are closed after reading their headers, following the [Requests streaming workflow](https://requests.readthedocs.io/en/stable/user/advanced/#body-content-workflow).
 
-История живёт до закрытия приложения; автоматического периодического мониторинга и уведомлений сейчас нет.
+History lasts until the app closes. Automatic periodic monitoring and notifications are not currently implemented.
 
-## Разработка и проверки
+## Development and testing
 
-Сетевые проверки и конфигурация находятся в `pingcheck_core.py`; окно, последовательный планировщик и анимация — в `pingcheck.py`; редактор настроек — в `sitepulse_settings.py`. Единственный активный сетевой поток отправляет результат через очередь, а Tk обновляется главным потоком, с учётом [потоковой модели Tkinter](https://docs.python.org/3/library/tkinter.html#threading-model).
+`pingcheck_core.py` handles network checks and configuration; `pingcheck.py` contains the window, sequential scheduler, and animations; `sitepulse_settings.py` provides the settings editor. The single active network worker sends its result through a queue, while Tk updates run on the main thread, following the [Tkinter threading model](https://docs.python.org/3/library/tkinter.html#threading-model).
 
 ```bash
 pip install -r requirements-dev.txt
@@ -150,43 +152,43 @@ ruff check .
 python -m unittest discover -s tests -v
 ```
 
-GUI-тесты без дисплея пропускаются. Для полного запуска на Linux:
+GUI tests are skipped when no display is available. To run the full suite on Linux:
 
 ```bash
 sudo apt install xvfb xauth
 xvfb-run -a python -m unittest discover -s tests -v
 ```
 
-Тесты используют локальный HTTP-сервер и подменённые ответы: публичные сайты не нужны. Проверяются конфиг, атомарная запись, редиректы, запасной `GET`, ошибки TLS, отсутствие перекрытия запросов, остановка очереди, момент запуска после анимации, настройки и жизненный цикл окна. CI запускает GUI-тесты и на Linux, и на Windows.
+Tests use a local HTTP server and mocked responses; no public websites are required. They cover configuration, atomic writes, redirects, fallback `GET`, TLS errors, non-overlapping requests, stopping the queue, starting requests after animations, settings, and the window lifecycle. CI runs GUI tests on both Linux and Windows.
 
-### Посмотреть анимацию без сети
+### Preview the animation offline
 
 ```bash
 python pingcheck.py --demo
 ```
 
-Режим `--demo` не читает и не записывает пользовательский конфиг, не регистрирует глобальный хоткей и показывает явно обозначенные тестовые результаты. Чтобы перезаписать PNG/GIF из настоящего интерфейса:
+`--demo` uses clearly labeled sample results. It does not read or write the user's configuration or register a global hotkey. To regenerate the PNG/GIF previews from the actual interface:
 
 ```bash
 xvfb-run -a -s '-screen 0 1280x900x24' python scripts/capture_preview.py
 ```
 
-### Собрать Windows `.exe`
+### Build a Windows `.exe`
 
-На Windows, из активированного окружения:
+On Windows, with the virtual environment activated:
 
 ```powershell
 python -m pip install pyinstaller
 python -m PyInstaller --onefile --noconsole --name SitePulse --icon assets/sitepulse.ico --add-data "assets:assets" pingcheck.py
 ```
 
-Результат: `dist/SitePulse.exe`. PyInstaller нужно запускать на целевой ОС. CI сначала выполняет тесты и проверку кода, затем собирает Windows-приложение и демонстрационные изображения.
+Output: `dist/SitePulse.exe`. Run PyInstaller on the target operating system. CI runs tests and lint checks before building the Windows app and generating demo previews.
 
-## Идеи для следующей версии
+## Future ideas
 
-- Системный трей и платформенные горячие клавиши для Linux.
-- Периодические проверки, уведомления об изменении статуса и экспорт истории.
+- A system tray icon and native Linux global shortcuts.
+- Periodic checks, status-change notifications, and history export.
 
-## Лицензия
+## License
 
 [MIT](LICENSE).
